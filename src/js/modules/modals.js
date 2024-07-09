@@ -1,4 +1,18 @@
 const modals = () => {
+
+	function showModalByTime(time, selector) {
+		const modal = document.querySelector(selector);
+
+		const timerId = setTimeout(() => {
+			modal.style.display = "block";
+			document.body.classList.add("modal-open");
+		}, time);
+
+		return timerId;
+	}
+
+	const timerId = showModalByTime(5000, ".popup-consultation");
+
 	function bindModal(openSelector, modalSelector, closeSelector, closeClickOverlay = true) {
 		const open = document.querySelectorAll(openSelector),
 			modal = document.querySelector(modalSelector),
@@ -11,6 +25,10 @@ const modals = () => {
 			modal.style.display = "block";
 			document.body.classList.add("modal-open");
 			document.body.style.marginRight = `${scroll}px`;
+
+			if (modal.style.display == "block") {
+				clearTimeout(timerId);
+			}
 		};
 
 		open.forEach(item => {
@@ -41,14 +59,6 @@ const modals = () => {
 	bindModal(".button-design", ".popup-design", ".popup-design .popup-close");
 	bindModal(".button-consultation", ".popup-consultation", ".popup-close");
 
-	function showModalByTime(time, selector) {
-		const modal = document.querySelector(selector);
-		setTimeout(() => {
-			modal.style.display = "block";
-			document.body.classList.add("modal-open");
-		}, time);
-	}
-
 	function calcScroll() {
 		const div = document.createElement("div");
 
@@ -66,8 +76,6 @@ const modals = () => {
 
 		return scrollWidth;
 	}
-					    
-	// showModalByTime(60000, ".popup");
 };
 
 export default modals;

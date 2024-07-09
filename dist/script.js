@@ -13,6 +13,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 const modals = () => {
+  function showModalByTime(time, selector) {
+    const modal = document.querySelector(selector);
+    const timerId = setTimeout(() => {
+      modal.style.display = "block";
+      document.body.classList.add("modal-open");
+    }, time);
+    return timerId;
+  }
+  const timerId = showModalByTime(5000, ".popup-consultation");
   function bindModal(openSelector, modalSelector, closeSelector, closeClickOverlay = true) {
     const open = document.querySelectorAll(openSelector),
       modal = document.querySelector(modalSelector),
@@ -24,6 +33,9 @@ const modals = () => {
       modal.style.display = "block";
       document.body.classList.add("modal-open");
       document.body.style.marginRight = `${scroll}px`;
+      if (modal.style.display == "block") {
+        clearTimeout(timerId);
+      }
     };
     open.forEach(item => {
       item.addEventListener("click", () => handleClick());
@@ -48,13 +60,6 @@ const modals = () => {
   }
   bindModal(".button-design", ".popup-design", ".popup-design .popup-close");
   bindModal(".button-consultation", ".popup-consultation", ".popup-close");
-  function showModalByTime(time, selector) {
-    const modal = document.querySelector(selector);
-    setTimeout(() => {
-      modal.style.display = "block";
-      document.body.classList.add("modal-open");
-    }, time);
-  }
   function calcScroll() {
     const div = document.createElement("div");
     div.style.height = "50px";
@@ -70,8 +75,6 @@ const modals = () => {
 
     return scrollWidth;
   }
-
-  // showModalByTime(60000, ".popup");
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modals);
 
