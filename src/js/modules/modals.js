@@ -1,11 +1,14 @@
 const modals = () => {
 
+	const scroll = calcScroll();
+
 	function showModalByTime(time, selector) {
 		const modal = document.querySelector(selector);
 
 		const timerId = setTimeout(() => {
 			modal.style.display = "block";
 			document.body.classList.add("modal-open");
+			document.body.style.marginRight = `${scroll}px`;
 		}, time);
 
 		return timerId;
@@ -13,12 +16,11 @@ const modals = () => {
 
 	const timerId = showModalByTime(5000, ".popup-consultation");
 
-	function bindModal(openSelector, modalSelector, closeSelector, closeClickOverlay = true) {
+	function bindModal(openSelector, modalSelector, closeSelector, destroy = true) {
 		const open = document.querySelectorAll(openSelector),
 			modal = document.querySelector(modalSelector),
 			close = document.querySelector(closeSelector),
-			windows = document.querySelectorAll("[data-modal]"),
-			scroll = calcScroll();
+			windows = document.querySelectorAll("[data-modal]");
 		
 		const handleClick = () => {
 			closeAllModals();
@@ -29,6 +31,12 @@ const modals = () => {
 			if (modal.style.display == "block") {
 				clearTimeout(timerId);
 			}
+
+			if (destroy) {
+				open.forEach(item => {
+					item.style.display = "none";
+				});
+			}
 		};
 
 		open.forEach(item => {
@@ -36,7 +44,7 @@ const modals = () => {
 		});
 
 		modal.addEventListener("click", (e) => {
-			if (e.target == modal && closeClickOverlay == true) {
+			if (e.target == modal) {
 				closeAllModals();
 				document.body.classList.remove("modal-open");
 				document.body.style.marginRight = "0px";
@@ -56,8 +64,9 @@ const modals = () => {
 		}
 	}
     
-	bindModal(".button-design", ".popup-design", ".popup-design .popup-close");
-	bindModal(".button-consultation", ".popup-consultation", ".popup-close");
+	bindModal(".button-design", ".popup-design", ".popup-design .popup-close", false);
+	bindModal(".button-consultation", ".popup-consultation", ".popup-close", false);
+	bindModal(".infinite", ".popup-gift", ".popup-gift .popup-close", true);
 
 	function calcScroll() {
 		const div = document.createElement("div");
