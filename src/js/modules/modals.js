@@ -15,6 +15,7 @@ const modals = () => {
 	}
 
 	const timerId = showModalByTime(5000, ".popup-consultation");
+	const click = false;
 
 	function bindModal(openSelector, modalSelector, closeSelector, destroy = true) {
 		const open = document.querySelectorAll(openSelector),
@@ -37,6 +38,8 @@ const modals = () => {
 					item.style.display = "none";
 				});
 			}
+
+			click = true;
 		};
 
 		open.forEach(item => {
@@ -60,6 +63,7 @@ const modals = () => {
 		function closeAllModals() {
 			windows.forEach(item => {
 				item.style.display = "none";
+				item.classList.add("animated", "fadeIn");
 			});
 		}
 	}
@@ -85,6 +89,18 @@ const modals = () => {
 
 		return scrollWidth;
 	}
+
+	function openByScroll(selector) {
+		window.addEventListener("scroll", () => {
+			const scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight); // Это в случае, если хотим адаптировать под старые браузеры.
+
+			if (!click && (window.scrollY + document.documentElement.clientHeight >= scrollHeight)) {
+				document.querySelector(selector).click();
+			}
+		});
+	}
+
+	openByScroll(".infinite");
 };
 
 export default modals;
