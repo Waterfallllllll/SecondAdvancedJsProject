@@ -44,7 +44,7 @@ const slider = (slides, dir, leftBtn, rightBtn) => {
 			slide[slideIndex - 1].classList.add("slideInLeft");
 		});
 	} catch (e) {
-		console.log(e);
+		
 	}
         
 	function turnOnInterval() {

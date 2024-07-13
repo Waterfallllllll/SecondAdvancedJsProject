@@ -1,11 +1,19 @@
-const formsAjax = (state) => {
+const formsAjax = () => {
 	const forms = document.querySelectorAll("form"),
 		inputs = document.querySelectorAll("input");
     
 	const message = {   
-		success: "Success",
-		failure: "Something went wrong",
-		pending: "Loading"
+		success: "Отправлено",
+		failure: "Ошибка",
+		pending: "Идет отправка",
+		spinner: "assets/img/spinner.gif",
+		ok: "assets/img/ok.png",
+		fail: "assets/img/fail.png"
+	};
+    
+	const path = {
+		designer: "assets/server.php",
+		question: "assets/question.php"
 	};
     
 	const clearInputs = () => {
@@ -32,24 +40,44 @@ const formsAjax = (state) => {
 			e.preventDefault();
             
 			const block = document.createElement("div");
-			block.style.display = "block";
-			block.style.color = "red";
+			// block.style.display = "block";
+			// block.style.color = "red";
+			item.parentNode.appendChild(block);
+            
+			item.classList.add("animated", "fadeOutUp");
+			setTimeout(() => {
+				item.style.display = "none";
+			}, 400);
+            
+			const statusImg = document.createElement("img");
+			statusImg.setAttribute("src", message.spinner);
+			statusImg.classList.add("animated", "fadeInUp");
+			block.appendChild(statusImg);
+            
+			const textMessage = document.createElement("div");
+			textMessage.textContent = message.loading;
+			block.appendChild(textMessage);
             
 			const formData = new FormData(item);
-            
-			getResources("./assets/server.php", formData)
-				.then(data => {
+			let api;
+			item.closest(".popup-design") ? api = path.designer : path.question; // Этот метод попробует найти определенный селектор у элемента где-то выше по иерархии. Если такого блока нет, то даст null.
+			console.log(api);
+
+			getResources(api, formData)
+				.then((data) => {
 					console.log(data);
-					block.textContent = message.success;
+					statusImg.setAttribute("src", message.ok);
+					textMessage.textContent = message.success;
 				})
 				.catch(() => {
-					block.textContent = message.failure;
+					statusImg.setAttribute("src", message.fail);
+					textMessage.textContent = message.failure;
 				})
 				.finally(() => {
 					clearInputs();
-					setTimeout(() => {
-						block.remove();
-					}, 5000);
+					// setTimeout(() => {
+					// 	block.remove();
+					// }, 5000);
 				});
 		});
 	});

@@ -5,10 +5,8 @@ import formsAjax from "./modules/formsAjax";
 window.addEventListener("DOMContentLoaded", () => {
 	"use strict";
 
-	const state = {};
-
 	modals();
 	slider(".feedback-slider-item", "horizontal", ".main-prev-btn", ".main-next-btn");
 	slider(".main-slider-item", "vertical");
-	formsAjax(state);
+	formsAjax();
 });
