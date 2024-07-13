@@ -2,6 +2,64 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/modules/formsAjax.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/formsAjax.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const formsAjax = state => {
+  const forms = document.querySelectorAll("form"),
+    inputs = document.querySelectorAll("input");
+  const message = {
+    success: "Success",
+    failure: "Something went wrong",
+    pending: "Loading"
+  };
+  const clearInputs = () => {
+    inputs.forEach(item => {
+      item.value = "";
+    });
+  };
+  async function getResources(url, data) {
+    const res = await fetch(`${url}`, {
+      method: "POST",
+      body: data
+    });
+    if (!res.ok) {
+      throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+    }
+    return await res.text();
+  }
+  forms.forEach(item => {
+    item.addEventListener("submit", e => {
+      e.preventDefault();
+      const block = document.createElement("div");
+      block.style.display = "block";
+      block.style.color = "red";
+      const formData = new FormData(item);
+      getResources("./assets/server.php", formData).then(data => {
+        console.log(data);
+        block.textContent = message.success;
+      }).catch(() => {
+        block.textContent = message.failure;
+      }).finally(() => {
+        clearInputs();
+        setTimeout(() => {
+          block.remove();
+        }, 5000);
+      });
+    });
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (formsAjax);
+
+/***/ }),
+
 /***/ "./src/js/modules/modals.js":
 /*!**********************************!*\
   !*** ./src/js/modules/modals.js ***!
@@ -98,6 +156,79 @@ const modals = () => {
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (modals);
 
+/***/ }),
+
+/***/ "./src/js/modules/slider.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/slider.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const slider = (slides, dir, leftBtn, rightBtn) => {
+  const slide = document.querySelectorAll(slides);
+  let slideIndex = 1;
+  let interval = false;
+  function showSlide(n) {
+    if (n < 1) {
+      slideIndex = slide.length;
+    }
+    if (n > slide.length) {
+      slideIndex = 1;
+    }
+    slide.forEach(item => {
+      item.classList.add("animated");
+      item.style.display = "none";
+    });
+    slide[slideIndex - 1].style.display = "block";
+  }
+  showSlide(slideIndex);
+  function changeSlide(n) {
+    showSlide(slideIndex += n);
+  }
+  try {
+    const left = document.querySelector(leftBtn),
+      right = document.querySelector(rightBtn);
+    left.addEventListener("click", () => {
+      changeSlide(-1);
+      slide[slideIndex - 1].classList.remove("slideInLeft");
+      slide[slideIndex - 1].classList.add("slideInRight");
+    });
+    right.addEventListener("click", () => {
+      changeSlide(1);
+      slide[slideIndex - 1].classList.remove("slideInRight");
+      slide[slideIndex - 1].classList.add("slideInLeft");
+    });
+  } catch (e) {
+    console.log(e);
+  }
+  function turnOnInterval() {
+    if (dir == "vertical") {
+      interval = setInterval(function () {
+        changeSlide(1);
+        slide[slideIndex - 1].classList.add("slideInDown");
+      }, 3000);
+    } else {
+      interval = setInterval(function () {
+        changeSlide(1);
+        slide[slideIndex - 1].classList.remove("slideInRight");
+        slide[slideIndex - 1].classList.add("slideInLeft");
+      }, 3000);
+    }
+  }
+  turnOnInterval();
+  slide[0].parentNode.addEventListener("mouseenter", () => {
+    clearInterval(interval);
+  });
+  slide[0].parentNode.addEventListener("mouseleave", () => {
+    turnOnInterval();
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (slider);
+
 /***/ })
 
 /******/ 	});
@@ -162,11 +293,19 @@ var __webpack_exports__ = {};
   \************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_modals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/modals */ "./src/js/modules/modals.js");
+/* harmony import */ var _modules_slider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/slider */ "./src/js/modules/slider.js");
+/* harmony import */ var _modules_formsAjax__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/formsAjax */ "./src/js/modules/formsAjax.js");
+
+
 
 window.addEventListener("DOMContentLoaded", () => {
   "use strict";
 
+  const state = {};
   (0,_modules_modals__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  (0,_modules_slider__WEBPACK_IMPORTED_MODULE_1__["default"])(".feedback-slider-item", "horizontal", ".main-prev-btn", ".main-next-btn");
+  (0,_modules_slider__WEBPACK_IMPORTED_MODULE_1__["default"])(".main-slider-item", "vertical");
+  (0,_modules_formsAjax__WEBPACK_IMPORTED_MODULE_2__["default"])(state);
 });
 /******/ })()
 ;
