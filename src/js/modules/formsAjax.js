@@ -40,8 +40,8 @@ const formsAjax = () => {
 			e.preventDefault();
             
 			const block = document.createElement("div");
-			// block.style.display = "block";
-			// block.style.color = "red";
+			block.style.display = "block";
+			block.style.color = "green";
 			item.parentNode.appendChild(block);
             
 			item.classList.add("animated", "fadeOutUp");
@@ -50,6 +50,7 @@ const formsAjax = () => {
 			}, 400);
             
 			const statusImg = document.createElement("img");
+			statusImg.style.marginBottom = "20px";
 			statusImg.setAttribute("src", message.spinner);
 			statusImg.classList.add("animated", "fadeInUp");
 			block.appendChild(statusImg);
@@ -60,7 +61,7 @@ const formsAjax = () => {
             
 			const formData = new FormData(item);
 			let api;
-			item.closest(".popup-design") ? api = path.designer : path.question; // Этот метод попробует найти определенный селектор у элемента где-то выше по иерархии. Если такого блока нет, то даст null.
+			item.closest(".popup-design") ? api = path.designer : api = path.question; // Этот метод попробует найти определенный селектор у элемента где-то выше по иерархии. Если такого блока нет, то даст null.
 			console.log(api);
 
 			getResources(api, formData)
@@ -71,6 +72,7 @@ const formsAjax = () => {
 				})
 				.catch(() => {
 					statusImg.setAttribute("src", message.fail);
+					block.style.color = "red";
 					textMessage.textContent = message.failure;
 				})
 				.finally(() => {
