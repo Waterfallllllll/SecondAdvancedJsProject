@@ -1,6 +1,7 @@
 const formsAjax = () => {
 	const forms = document.querySelectorAll("form"),
-		inputs = document.querySelectorAll("input");
+		inputs = document.querySelectorAll("input"),
+		upload = document.querySelectorAll("[name='upload']");
     
 	const message = {   
 		success: "Отправлено",
@@ -22,7 +23,12 @@ const formsAjax = () => {
 		});
 	};
     
-	async function getResources(url, data) {
+	async function getResources(url, data, statusImg, textMessage, block) {
+		statusImg.setAttribute("src", message.spinner);
+		block.appendChild(statusImg);
+		textMessage.textContent = message.loading;
+		block.appendChild(textMessage);
+
 		const res = await fetch(`${url}`, {
 			method: "POST",
 			body: data
@@ -51,20 +57,15 @@ const formsAjax = () => {
             
 			const statusImg = document.createElement("img");
 			statusImg.style.marginBottom = "20px";
-			statusImg.setAttribute("src", message.spinner);
 			statusImg.classList.add("animated", "fadeInUp");
-			block.appendChild(statusImg);
-            
+
 			const textMessage = document.createElement("div");
-			textMessage.textContent = message.loading;
-			block.appendChild(textMessage);
             
 			const formData = new FormData(item);
 			let api;
-			item.closest(".popup-design") ? api = path.designer : api = path.question; // Этот метод попробует найти определенный селектор у элемента где-то выше по иерархии. Если такого блока нет, то даст null.
-			console.log(api);
+			item.closest(".popup-design") || item.classList.contains("calc_form") ? api = path.designer : api = path.question; // Этот метод попробует найти определенный селектор у элемента где-то выше по иерархии. Если такого блока нет, то даст null.
 
-			getResources(api, formData)
+			getResources(api, formData, statusImg, textMessage, block)
 				.then((data) => {
 					console.log(data);
 					statusImg.setAttribute("src", message.ok);
@@ -77,9 +78,12 @@ const formsAjax = () => {
 				})
 				.finally(() => {
 					clearInputs();
-					// setTimeout(() => {
-					// 	block.remove();
-					// }, 5000);
+					setTimeout(() => {
+						block.remove();
+						item.style.display = "block",
+						item.classList.remove("fadeOutUp");
+						item.classList.add("fadeInUp");
+					}, 5000);
 				});
 		});
 	});
