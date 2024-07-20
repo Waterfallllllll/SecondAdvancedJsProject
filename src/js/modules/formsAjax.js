@@ -21,7 +21,22 @@ const formsAjax = () => {
 		inputs.forEach(item => {
 			item.value = "";
 		});
+
+		upload.forEach(item => {
+			item.previousElementSibling.textContent = "Файл не выбран";
+		});
 	};
+
+	upload.forEach(item => {
+		item.addEventListener("input", () => {
+			let dots;
+			const arr = item.files[0].name.split(".");
+
+			arr[0].length > 6 ? dots = "..." : dots = ".";
+			const name = arr[0].substring(0, 6) + dots + arr[1];
+			item.previousElementSibling.textContent = name;
+		});
+	});
     
 	async function getResources(url, data, statusImg, textMessage, block) {
 		statusImg.setAttribute("src", message.spinner);
@@ -48,6 +63,7 @@ const formsAjax = () => {
 			const block = document.createElement("div");
 			block.style.display = "block";
 			block.style.color = "green";
+			block.style.textAlign = "center";
 			item.parentNode.appendChild(block);
             
 			item.classList.add("animated", "fadeOutUp");
