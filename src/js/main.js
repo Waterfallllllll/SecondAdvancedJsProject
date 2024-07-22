@@ -1,6 +1,7 @@
 import modals from "./modules/modals";
 import slider from "./modules/slider";
 import formsAjax from "./modules/formsAjax";
+import mask from "./modules/mask";
 
 window.addEventListener("DOMContentLoaded", () => {
 	"use strict";
@@ -9,4 +10,5 @@ window.addEventListener("DOMContentLoaded", () => {
 	slider(".feedback-slider-item", "horizontal", ".main-prev-btn", ".main-next-btn");
 	slider(".main-slider-item", "vertical");
 	formsAjax();
+	mask('[name="phone"]');
 });

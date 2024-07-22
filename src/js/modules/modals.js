@@ -14,7 +14,7 @@ const modals = () => {
 		return timerId;
 	}
 
-	const timerId = showModalByTime(5000, ".popup-consultation");
+	// const timerId = showModalByTime(5000, ".popup-consultation");
 	let click = false;
 
 	function bindModal(openSelector, modalSelector, closeSelector, destroy = true) {
