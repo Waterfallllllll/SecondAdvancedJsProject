@@ -3,6 +3,7 @@ import slider from "./modules/slider";
 import formsAjax from "./modules/formsAjax";
 import mask from "./modules/mask";
 import checkTextInput from "./modules/checkTextInput";
+import loadElements from "./modules/loadElements";
 
 window.addEventListener("DOMContentLoaded", () => {
 	"use strict";
@@ -14,4 +15,5 @@ window.addEventListener("DOMContentLoaded", () => {
 	mask('[name="phone"]');
 	checkTextInput('[name="name"]');
 	checkTextInput('[name="message"]');
+	loadElements(".button-styles", ".hidden-lg");
 });
