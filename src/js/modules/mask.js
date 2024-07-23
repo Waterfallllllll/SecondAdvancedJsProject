@@ -24,6 +24,12 @@ const mask = (selector) => {
 		if (def.length >= val.length) {
 			val = def;
 		}
+
+		const position = this.value.selectionStart;
+
+		if (position < 2) {
+			event.preventDefault();
+		}
         
 		this.value = matrix.replace(/./g, function(a) {
 			if (/[_\d]/.test(a) && i < val.length) {        
@@ -42,7 +48,7 @@ const mask = (selector) => {
 				return this.value = "";
 			}
 		} else {
-			setCursorPosition(this.value.length, this);
+			setCursorPosition(this.value.length, this); //this - текущий элемент
 		}
 	}
 
@@ -52,6 +58,7 @@ const mask = (selector) => {
 		input.addEventListener("input", createMask);
 		input.addEventListener("focus", createMask);
 		input.addEventListener("blur", createMask);
+		input.addEventListener("keydown", createMask);
 	});
 };
 
