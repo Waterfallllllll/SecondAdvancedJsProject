@@ -37,8 +37,8 @@ const formsAjax = () => {
 			item.previousElementSibling.textContent = name;
 		});
 	});
-    
-	async function getResources(url, data, statusImg, textMessage, block) {
+
+	const getResources = async (url, data, statusImg, textMessage, block) => {
 		statusImg.setAttribute("src", message.spinner);
 		block.appendChild(statusImg);
 		textMessage.textContent = message.loading;
@@ -54,8 +54,8 @@ const formsAjax = () => {
 		}
         
 		return await res.text();
-	}
-    
+	};
+        
 	forms.forEach(item => {
 		item.addEventListener("submit", (e) => {
 			e.preventDefault();

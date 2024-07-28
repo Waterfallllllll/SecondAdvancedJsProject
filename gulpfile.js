@@ -5,7 +5,7 @@ const webpack = require("webpack-stream");
 const browsersync = require("browser-sync");
 
 // const dist = "./dist/";
-const dist = "C:/OSPanel/home/SecondAdvancedJsProject.local";
+const dist = "D:/OSPanel/home/SecondAdvancedJsProject.local";
 
 gulp.task("copy-html", () => {
     return gulp.src("./src/index.html")
