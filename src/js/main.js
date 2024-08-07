@@ -4,6 +4,7 @@ import formsAjax from "./modules/formsAjax";
 import mask from "./modules/mask";
 import checkTextInput from "./modules/checkTextInput";
 import loadElements from "./modules/loadElements";
+import calc from "./modules/calc";
 
 window.addEventListener("DOMContentLoaded", () => {
 	"use strict";
@@ -15,5 +16,6 @@ window.addEventListener("DOMContentLoaded", () => {
 	mask('[name="phone"]');
 	checkTextInput('[name="name"]');
 	checkTextInput('[name="message"]');
-	loadElements(".button-styles", ".hidden-lg");
+	loadElements(".button-styles", "#styles .row");
+	calc("#size", "#material", "#options");
 });
