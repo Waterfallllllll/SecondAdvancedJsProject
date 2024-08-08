@@ -79,14 +79,6 @@ const formsAjax = () => {
             
 			const formData = new FormData(item);
 
-			if (item.classList.contains("calc_form")) {
-				const result = document.querySelector(".calc-price"),
-					size = document.querySelector("#size");
-
-				formData.append("result", result.textContent);
-
-			}
-
 			let api;
 			item.closest(".popup-design") || item.classList.contains("calc_form") ? api = path.designer : api = path.question; // Этот метод попробует найти определенный селектор у элемента где-то выше по иерархии. Если такого блока нет, то даст null.
 

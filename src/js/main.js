@@ -5,9 +5,12 @@ import mask from "./modules/mask";
 import checkTextInput from "./modules/checkTextInput";
 import loadElements from "./modules/loadElements";
 import calc from "./modules/calc";
+import changeModalState from "./modules/changeModalState";
 
 window.addEventListener("DOMContentLoaded", () => {
 	"use strict";
+
+	const modalState = {};
 
 	modals();
 	slider(".feedback-slider-item", "horizontal", ".main-prev-btn", ".main-next-btn");
@@ -18,4 +21,5 @@ window.addEventListener("DOMContentLoaded", () => {
 	checkTextInput('[name="message"]');
 	loadElements(".button-styles", "#styles .row");
 	calc("#size", "#material", "#options", ".promocode", ".calc-price");
+	changeModalState(modalState);
 });
