@@ -1,4 +1,4 @@
-const formsAjax = () => {
+const formsAjax = (state) => {
 	const forms = document.querySelectorAll("form"),
 		inputs = document.querySelectorAll("input"),
 		upload = document.querySelectorAll("[name='upload']");
@@ -78,6 +78,18 @@ const formsAjax = () => {
 			const textMessage = document.createElement("div");
             
 			const formData = new FormData(item);
+
+			if (item.classList.contains("calc_form")) {
+
+				const calc = document.querySelector(".calc-price");
+				state["calculator"] = calc.textContent;
+
+				for (const key in state) {
+					formData.append(key, state[key]);
+				}
+
+				calc.textContent = "Для расчета нужно выбрать размер картины и материал картины";
+			}
 
 			let api;
 			item.closest(".popup-design") || item.classList.contains("calc_form") ? api = path.designer : api = path.question; // Этот метод попробует найти определенный селектор у элемента где-то выше по иерархии. Если такого блока нет, то даст null.

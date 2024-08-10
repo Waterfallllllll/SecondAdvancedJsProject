@@ -1,46 +1,38 @@
 const changeModalState = (state) => {
-	const windowType = document.querySelectorAll(".balcon_icons_img"),
-		widthType = document.querySelectorAll("#width"),
-		heightType = document.querySelectorAll("#height"),
-		valueType = document.querySelectorAll("#view_type"),
-		checkboxType = document.querySelectorAll(".checkbox"),
-		window = document.querySelector(".popup_calc_content");
+	const sizeBlock = document.querySelector("#size"),
+		materialBlock = document.querySelector("#material"),
+		optionsBlock = document.querySelector("#options"),
+		promocodeBlock = document.querySelector(".promocode");	
 	
 
 	function bindActionToElems(elem, event, name) {	
-		elem.forEach((item, i) => {
-			item.addEventListener(event, () => {
-				switch (item.nodeName) {
-				case "INPUT":
-					state[name] = item.value;
-					break;
-				case "SELECT":
-					state[name] = item.value;
-						
-					const clearObject = () => {
-						const data = document.querySelectorAll(".popup_calc_btn");
 
-						data.forEach(item => {
-							item.addEventListener("click", () => {
-								document.querySelector("#view_type").value = "tree";
-							});
-						});
-					};
+		elem.addEventListener(event, () => {
+			switch (elem.nodeName) {
+			case "INPUT":
+				state[name] = elem.value;
+				break;
+			case "SELECT":
+				state[name] = elem.options[elem.options.selectedIndex].textContent;
+					
+				const clearObject = () => {
+					const data = document.querySelector("[data-submit]");
 
-					clearObject();
-					break;
-				}
-				console.log(state);
+					data.addEventListener("click", () => {
+						elem.options[elem.options.selectedIndex].textContent = elem.options[0].textContent;
+					});
+				};
 
-			});
+				clearObject();
+				break;
+			}
 		});
 	}
 
-	bindActionToElems(windowType, "click", "window");
-	bindActionToElems(widthType, "input", "width");
-	bindActionToElems(heightType, "input", "height");
-	bindActionToElems(valueType, "change", "value");
-	bindActionToElems(checkboxType, "change", "checkbox");
+	bindActionToElems(sizeBlock, "change", "size");
+	bindActionToElems(materialBlock, "change", "material");
+	bindActionToElems(optionsBlock, "change", "options");
+	bindActionToElems(promocodeBlock, "input", "promocode");
 };
 
 export default changeModalState;
