@@ -1,9 +1,28 @@
+import { getRequest } from "../services/requests";
+
 const calc = (size, material, options, promocode, calcPrice) => {
 	const sizeBlock = document.querySelector(size),
+		sizeOptions = sizeBlock.querySelectorAll("option"),
 		materialBlock = document.querySelector(material),
 		optionsBlock = document.querySelector(options),
 		promocodeBlock = document.querySelector(promocode),
 		calcPriceBlock = document.querySelector(calcPrice);
+	
+	getRequest("http://localhost:3000/size")
+		.then(item => loadServerValue(item))
+		.catch();
+	
+	
+	
+	
+	
+	function loadServerValue(object) {
+		sizeOptions.forEach((item, i) => {
+			item.setAttribute("value", )
+		});
+	}
+	
+	
 	
 	let sum = 0;
 
