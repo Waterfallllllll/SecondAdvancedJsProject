@@ -48,3 +48,6 @@ const calc = (size, material, options, promocode, calcPrice) => {
 };
 
 export default calc;
+
+
+
