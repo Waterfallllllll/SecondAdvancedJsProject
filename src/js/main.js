@@ -7,6 +7,7 @@ import loadElements from "./modules/loadElements";
 import calc from "./modules/calc";
 import changeModalState from "./modules/changeModalState";
 import filter from "./modules/filter";
+import changeImage from "./modules/changeImage";
 
 window.addEventListener("DOMContentLoaded", () => {
 	"use strict";
@@ -24,4 +25,5 @@ window.addEventListener("DOMContentLoaded", () => {
 	calc("#size", "#material", "#options", ".promocode", ".calc-price");
 	changeModalState(modalState);
 	filter();
+	changeImage(".sizes-block");
 });
