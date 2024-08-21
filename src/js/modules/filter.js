@@ -7,6 +7,7 @@ const filter = () => {
 		forGuy = portfolioMenu.querySelector(".guy"),
 		forGrandmother = portfolioMenu.querySelector(".grandmother"),
 		forGranddad = portfolioMenu.querySelector(".granddad"),
+		liElements = portfolioMenu.querySelectorAll("li"), 
 		portfolioWrapper = document.querySelector(".portfolio-wrapper"),
 		girl = portfolioWrapper.querySelectorAll(".girl"),
 		lovers = portfolioWrapper.querySelectorAll(".lovers"),
@@ -16,8 +17,8 @@ const filter = () => {
 		portfolioNo = document.querySelectorAll(".portfolio-no");
 
 
-	function elementListener(event, selector, selectorWrappper) {
-		selector.addEventListener(event, (e) => {
+	function elementListener(selector, selectorWrappper) {
+		selector.addEventListener("click", (e) => {
 
 			function clearDisplay(selector) {
 				selector.forEach(item => {
@@ -27,22 +28,39 @@ const filter = () => {
 
 			clearDisplay(portfolioBlock);
 			clearDisplay(portfolioNo);
-
-			if (e.target == selector) {
-				selectorWrappper.forEach(item => {
-					item.style.display = "block";
+			setTimeout(() => {
+				liElements.forEach(item => {
+					item.classList.remove("active", "animated", "pulse");
 				});
-			} 
+
+				selector.classList.add("animated", "pulse", "active");
+
+				portfolioBlock.forEach(item => {
+					item.classList.remove("animated", "fadeIn");
+				});
+
+				if (e.target == selector) {
+				
+					selectorWrappper.forEach(item => {
+						item.style.display = "block";
+					});
+
+					portfolioBlock.forEach(item => {
+						item.classList.add("animated", "fadeIn");
+					});
+	
+				} 
+			}, 0.5);
 		});
 	}
 
-	elementListener("click", allWorks, portfolioBlock);
-	elementListener("click", forLovers, lovers);
-	elementListener("click", forChef, chef);
-	elementListener("click", forGirl, girl);
-	elementListener("click", forGuy, guy);
-	elementListener("click", forGrandmother, portfolioNo);
-	elementListener("click", forGranddad, portfolioNo);
+	elementListener(allWorks, portfolioBlock);
+	elementListener(forLovers, lovers);
+	elementListener(forChef, chef);
+	elementListener(forGirl, girl);
+	elementListener(forGuy, guy);
+	elementListener(forGrandmother, portfolioNo);
+	elementListener(forGranddad, portfolioNo);
 };
 
 export default filter;
