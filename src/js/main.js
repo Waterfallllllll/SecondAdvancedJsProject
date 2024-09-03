@@ -27,5 +27,5 @@ window.addEventListener("DOMContentLoaded", () => {
 	changeModalState(modalState);
 	filter();
 	changeImage(".sizes-block");
-	accordion(".accordion-heading");
+	accordion(".accordion-heading", ".accordion-block");
 });

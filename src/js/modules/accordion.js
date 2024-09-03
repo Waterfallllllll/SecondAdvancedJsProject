@@ -1,17 +1,58 @@
-const accordion = (triggersSelector) => {
+const accordion = (triggersSelector, blockSelector) => {
 
-	const btns = document.querySelectorAll(triggersSelector);
+	const btns = document.querySelectorAll(triggersSelector),
+		block = document.querySelectorAll(blockSelector);
 
-	btns.forEach(btn => {
-		btn.addEventListener("click", function() {
-			this.classList.toggle("active-style");
-			this.nextElementSibling.classList.toggle("active-content");
+	btns.forEach(item => {
+		item.addEventListener("click", function() {
+			// this.nextElementSibling.classList.toggle("active-content");
 
-			if (this.classList.contains("active-style")) {
-				this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
-			} else {
-				this.nextElementSibling.style.maxHeight = "0px";
+			if (item.classList.contains("active-style")) {
+				item.nextElementSibling.classList.remove("active-content");
+				item.nextElementSibling.style.maxHeight = "0px";
+
+				btns.forEach(item => {
+					item.classList.remove("active-style");
+				});
 			}
+			
+
+			// btns.forEach(item => {
+			// 	if (item.classList.contains("active-style")) {
+			// 		item.nextElementSibling.classList.remove("active-content");
+			// 		item.nextElementSibling.style.maxHeight = "0px";
+
+			// 		btns.forEach(item => {
+			// 			item.classList.remove("active-style");
+			// 		});
+			// 	}
+			// });
+
+			// this.classList.add("active-style");
+			// this.nextElementSibling.classList.add("active-content");
+			// this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
+
+
+			btns.forEach(item => {
+				// if (item.classList.contains("active-content")) {
+				// 	item.classList.remove("active-content");
+				// 	item.style.maxHeight = "0px";
+
+				// 	btns.forEach(item => {
+				// 		item.classList.remove("active-style");
+				// 	});
+
+				// 	console.log("a");
+				// } else {
+
+				// }
+			});
+
+			// if (this.classList.contains("active-style")) {
+			// 	this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
+			// } else {
+			// 	this.nextElementSibling.style.maxHeight = "0px";
+			// }
 		});
 	});
 
