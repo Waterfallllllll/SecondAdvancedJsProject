@@ -4,54 +4,43 @@ const accordion = (triggersSelector, blockSelector) => {
 		block = document.querySelectorAll(blockSelector);
 
 	btns.forEach(item => {
-		item.addEventListener("click", function() {
-			// this.nextElementSibling.classList.toggle("active-content");
-
-			if (item.classList.contains("active-style")) {
-				item.nextElementSibling.classList.remove("active-content");
-				item.nextElementSibling.style.maxHeight = "0px";
-
-				btns.forEach(item => {
-					item.classList.remove("active-style");
-				});
-			}
+		item.addEventListener("click", function () {
 			
-
-			// btns.forEach(item => {
-			// 	if (item.classList.contains("active-style")) {
-			// 		item.nextElementSibling.classList.remove("active-content");
-			// 		item.nextElementSibling.style.maxHeight = "0px";
-
-			// 		btns.forEach(item => {
-			// 			item.classList.remove("active-style");
-			// 		});
-			// 	}
-			// });
-
-			// this.classList.add("active-style");
-			// this.nextElementSibling.classList.add("active-content");
-			// this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
-
-
-			btns.forEach(item => {
-				// if (item.classList.contains("active-content")) {
-				// 	item.classList.remove("active-content");
-				// 	item.style.maxHeight = "0px";
-
-				// 	btns.forEach(item => {
-				// 		item.classList.remove("active-style");
-				// 	});
-
-				// 	console.log("a");
-				// } else {
-
-				// }
+			block.forEach(item => {
+				item.classList.remove("active-content");
+				item.style.maxHeight = "0px";
 			});
 
-			// if (this.classList.contains("active-style")) {
-			// 	this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
+			btns.forEach(item => {
+				item.classList.remove("active-style");
+			});
+
+			if (!(item.classList.contains("active-style"))) {
+				this.classList.add("active-style");
+				this.nextElementSibling.classList.add("active-content");
+				this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
+				console.log("aa");
+			}
+
+
+
+			// if (item.classList.contains("active-style")) {
+
+			// 	block.forEach(item => {
+			// 		item.classList.remove("active-content");
+			// 		item.style.maxHeight = "0px";
+			// 	});
+
+			// 	btns.forEach(item => {
+			// 		item.classList.remove("active-style");
+			// 	});
+
+			// 	console.log("a");
 			// } else {
-			// 	this.nextElementSibling.style.maxHeight = "0px";
+			// 	this.classList.add("active-style");
+			// 	this.nextElementSibling.classList.add("active-content");
+			// 	this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
+			// 	console.log("aa");
 			// }
 		});
 	});
