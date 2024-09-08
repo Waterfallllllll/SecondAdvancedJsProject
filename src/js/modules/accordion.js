@@ -3,9 +3,13 @@ const accordion = (triggersSelector, blockSelector) => {
 	const btns = document.querySelectorAll(triggersSelector),
 		block = document.querySelectorAll(blockSelector);
 
+
 	btns.forEach(item => {
-		item.addEventListener("click", function () {
-			
+		item.addEventListener("click", function (e) {
+		// Проверяем, активен ли текущий элемент
+			const isActive = this.classList.contains("active-style");
+
+			// Закрываем все блоки и убираем классы у всех кнопок
 			block.forEach(item => {
 				item.classList.remove("active-content");
 				item.style.maxHeight = "0px";
@@ -15,37 +19,14 @@ const accordion = (triggersSelector, blockSelector) => {
 				item.classList.remove("active-style");
 			});
 
-			if (!(item.classList.contains("active-style"))) {
+			// Если текущий элемент был неактивен, активируем его
+			if (!isActive) {
 				this.classList.add("active-style");
 				this.nextElementSibling.classList.add("active-content");
 				this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
-				console.log("aa");
 			}
-
-
-
-			// if (item.classList.contains("active-style")) {
-
-			// 	block.forEach(item => {
-			// 		item.classList.remove("active-content");
-			// 		item.style.maxHeight = "0px";
-			// 	});
-
-			// 	btns.forEach(item => {
-			// 		item.classList.remove("active-style");
-			// 	});
-
-			// 	console.log("a");
-			// } else {
-			// 	this.classList.add("active-style");
-			// 	this.nextElementSibling.classList.add("active-content");
-			// 	this.nextElementSibling.style.maxHeight = this.nextElementSibling.scrollHeight + 80 + "px";
-			// 	console.log("aa");
-			// }
 		});
 	});
-
-
 
 
 
