@@ -9,6 +9,7 @@ import changeModalState from "./modules/changeModalState";
 import filter from "./modules/filter";
 import changeImage from "./modules/changeImage";
 import accordion from "./modules/accordion";
+import burger from "./modules/burger";
 
 window.addEventListener("DOMContentLoaded", () => {
 	"use strict";
@@ -28,4 +29,5 @@ window.addEventListener("DOMContentLoaded", () => {
 	filter();
 	changeImage(".sizes-block");
 	accordion(".accordion-heading", ".accordion-block");
+	burger(".burger", ".burger-menu");
 });
