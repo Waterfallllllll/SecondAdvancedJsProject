@@ -288,6 +288,76 @@ const checkTextInput = selector => {
 
 /***/ }),
 
+/***/ "./src/js/modules/drop.js":
+/*!********************************!*\
+  !*** ./src/js/modules/drop.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+const drop = () => {
+  // drag *
+  // dragend *
+  // dragenter - объект над dropArea
+  // dragexit *
+  // dragleave - объект за пределами dropArea
+  // dragover - объект зависает над dropArea
+  // dragstart *
+  // drop - объект отправлен в dropArea
+
+  const fileUpload = document.querySelectorAll("[name='upload']");
+  ["dragenter", "dragleave", "dragover", "drop"].forEach(event => {
+    fileUpload.forEach(item => {
+      item.addEventListener(event, preventDefault, false);
+    });
+  });
+  function preventDefault(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  ["dragenter", "dragover"].forEach(event => {
+    fileUpload.forEach(item => {
+      item.addEventListener(event, () => addHighlight(item), false);
+    });
+  });
+  function addHighlight(item) {
+    item.closest(".file_upload").style.borderRadius = "52px";
+    item.closest(".file_upload").style.background = " linear-gradient(135deg, #e0ffe0, #b0e0b0)";
+  }
+  ["dragleave"].forEach(event => {
+    fileUpload.forEach(item => {
+      item.addEventListener(event, () => clearHighlight(item), false);
+    });
+  });
+  function clearHighlight(item) {
+    if (item.closest(".calc_form")) {
+      item.closest(".file_upload").style.background = "white";
+      item.closest(".file_upload").style.borderRadius = "none";
+    } else {
+      item.closest(".file_upload").style.background = "#ededed";
+      item.closest(".file_upload").style.borderRadius = "none";
+    }
+  }
+  ["drop"].forEach(event => {
+    fileUpload.forEach(item => {
+      item.addEventListener(event, e => {
+        item.files = e.dataTransfer.files;
+        let dots;
+        const arr = item.files[0].name.split(".");
+        arr[0].length > 6 ? dots = "..." : dots = ".";
+        const name = arr[0].substring(0, 6) + dots + arr[1];
+        item.previousElementSibling.textContent = name;
+      }, false);
+    });
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (drop);
+
+/***/ }),
+
 /***/ "./src/js/modules/filter.js":
 /*!**********************************!*\
   !*** ./src/js/modules/filter.js ***!
@@ -715,47 +785,90 @@ const scrolling = upSelector => {
       upElem.classList.remove("fadeIn");
     }
   });
-  const element = document.documentElement,
-    body = document.body;
-  const calcScroll = () => {
-    upElem.addEventListener("click", function (event) {
-      const scrollTop = Math.round(body.scrollTop || element.scrollTop); // Сколько прокрутил пользователь
 
-      if (this.hash !== "") {
-        event.preventDefault();
-        let hashElement = document.querySelector(this.hash),
-          hashElementTop = 0;
-        while (hashElement.offsetParent) {
-          hashElementTop += hashElement.offsetTop;
-          hashElement = hashElement.offsetParent;
+  // Scrolling with raf
+
+  const links = document.querySelectorAll("[href^=\"#\"]"),
+    speed = 0.3;
+  links.forEach(link => {
+    link.addEventListener("click", function (event) {
+      event.preventDefault();
+      let widthTop = document.documentElement.scrollTop,
+        hash = this.hash,
+        toBlock = document.querySelector(hash).getBoundingClientRect().top,
+        start = null;
+      requestAnimationFrame(step);
+      function step(time) {
+        if (start === null) {
+          start = time;
         }
-        hashElementTop = Math.round(hashElementTop);
-        smoothScroll(scrollTop, hashElementTop, this.hash);
+        const progress = time - start,
+          r = toBlock < 0 ? Math.max(widthTop - progress / speed, widthTop + toBlock) : Math.min(widthTop + progress / speed, widthTop + toBlock);
+        document.documentElement.scrollTo(0, r);
+        if (r != widthTop + toBlock) {
+          requestAnimationFrame(step);
+        } else {
+          location.hash = hash;
+        }
       }
     });
-  };
-  const smoothScroll = (from, to, hash) => {
-    let timeInterval = 1,
-      prevScrollTop,
-      speed;
-    if (to > from) {
-      speed = 30;
-    } else {
-      speed = -30;
-    }
-    const move = setInterval(function () {
-      const scrollTop = Math.round(body.scrollTop || element.scrollTop);
-      if (prevScrollTop === scrollTop || to > from && scrollTop >= to || to < from && scrollTop <= to) {
-        clearInterval(move);
-        history.replaceState(history.state, document.title, location.href.replace(/#.*$/g, "") + hash);
-      } else {
-        body.scrollTop += speed;
-        element.scrollTop += speed;
-        prevScrollTop = scrollTop;
-      }
-    }, timeInterval);
-  };
-  calcScroll();
+  });
+
+  // Pure js scrolling
+
+  // const element = document.documentElement,
+  // 	      body = document.body;
+
+  // const calcScroll = () => {
+  // 	    upElem.addEventListener("click", function(event) {
+  // 	        const scrollTop = Math.round(body.scrollTop || element.scrollTop); // Сколько прокрутил пользователь
+
+  // 	        if (this.hash !== "") {
+  // 	            event.preventDefault();
+  // 	            let hashElement = document.querySelector(this.hash),
+  // 	                hashElementTop = 0;
+
+  // 	            while (hashElement.offsetParent) {
+  // 	                hashElementTop += hashElement.offsetTop;
+  // 				hashElement = hashElement.offsetParent;
+  // 	            }
+
+  // 	            hashElementTop = Math.round(hashElementTop);
+  // 	            smoothScroll(scrollTop, hashElementTop, this.hash);
+  // 	        }
+  // 	    });
+  // };
+
+  // const smoothScroll = (from, to, hash) => {
+  // 	    let timeInterval = 1,
+  // 	        prevScrollTop,
+  // 	        speed;
+
+  // 	    if (to > from) {
+  // 	        speed = 30;
+  // 	    } else {
+  // 	        speed = -30;
+  // 	    }
+
+  // 	    const move = setInterval(function() {
+  // 	        const scrollTop = Math.round(body.scrollTop || element.scrollTop);
+
+  // 	        if (
+  // 	            prevScrollTop === scrollTop ||
+  // 	            (to > from && scrollTop >= to) ||
+  // 	            (to < from && scrollTop <= to)
+  // 	        ) {
+  // 	            clearInterval(move);
+  // 	            history.replaceState(history.state, document.title, location.href.replace(/#.*$/g, "") + hash);
+  // 	        } else {
+  // 	            body.scrollTop += speed;
+  // 	            element.scrollTop += speed;
+  // 	            prevScrollTop = scrollTop;
+  // 	        }
+  // 	    }, timeInterval);
+  // };
+
+  // calcScroll();
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (scrolling);
 
@@ -927,6 +1040,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/modules/accordion.js");
 /* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
 /* harmony import */ var _modules_scrolling__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/scrolling */ "./src/js/modules/scrolling.js");
+/* harmony import */ var _modules_drop__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./modules/drop */ "./src/js/modules/drop.js");
+
 
 
 
@@ -959,6 +1074,7 @@ window.addEventListener("DOMContentLoaded", () => {
   (0,_modules_accordion__WEBPACK_IMPORTED_MODULE_10__["default"])(".accordion-heading", ".accordion-block");
   (0,_modules_burger__WEBPACK_IMPORTED_MODULE_11__["default"])(".burger", ".burger-menu");
   (0,_modules_scrolling__WEBPACK_IMPORTED_MODULE_12__["default"])(".pageup");
+  (0,_modules_drop__WEBPACK_IMPORTED_MODULE_13__["default"])();
 });
 /******/ })()
 ;
