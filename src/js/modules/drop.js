@@ -1,3 +1,5 @@
+import { postResources } from "../services/post";
+
 const drop = () => {
 	// drag *
 	// dragend *
@@ -54,6 +56,7 @@ const drop = () => {
 	["drop"].forEach(event => {
 		fileUpload.forEach(item => {
 			item.addEventListener(event, (e) => {
+				
 				item.files = e.dataTransfer.files;
 				let dots;
 				const arr = item.files[0].name.split(".");
@@ -62,7 +65,14 @@ const drop = () => {
 				const name = arr[0].substring(0, 6) + dots + arr[1];
 				item.previousElementSibling.textContent = name;
 
-				
+				const formData = new FormData();
+
+				formData.append("file", item.files[0]);
+
+				postResources("assets/server.php", formData)
+					.then((data) => {
+						console.log(data);
+					});
 			}, false);
 		});
 	});

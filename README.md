@@ -1,7 +1,20 @@
 # SecondAdvancedJsProject
 
 This project was created for personal practice in utilizing JavaScript and various additional technologies. Here you can find implementations of:
-1. 
+1. slider
+2. smooth scrolling
+3. calculator
+4. drag&drop
+5. formsAjax
+6. mask
+7. loadElements
+8. burger
+9. accordion
+10. filterImages
+11. modals
+12. changeImage
+13. changeModalState
+14. checkTextInput
 ## Technologies
 
 #### Gulp
